@@ -68,6 +68,9 @@ set(CED_LIBRARY_SOURCES
     )
 
 add_library(ced ${CED_LIBRARY_SOURCES})
+set_target_properties(ced PROPERTIES
+    COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
+)
 
 # Uncomment to put CED into WHATWG-compliant mode.
 #add_definitions(-DHTML5_MODE)
