@@ -9,7 +9,7 @@ set(
 )
 
 set(
-    COMPACT_ENC_DETG_VERSION_PATCH
+    COMPACT_ENC_DET_VERSION_PATCH
     0
 )
 
