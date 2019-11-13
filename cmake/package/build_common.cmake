@@ -66,27 +66,49 @@ set(
     "${CMAKE_CURRENT_LIST_DIR}/../../build/${ARCH}"
 )
 
-if (NOT "${CMAKE_HOST_UNIX}")
-    if ("${ARCH}" STREQUAL "x86")
-        set(ARCH_PARAMETER "Win32")
-    else ()
-        set(ARCH_PARAMETER "x64")
-    endif ()
+set(
+    DEBUG_PATH
+    "${BASE_BUILD_PATH}/Debug"
+)
+
+set(
+    RELEASE_PATH
+    "${BASE_BUILD_PATH}/RelWithDebInfo"
+)
+
+file(
+    MAKE_DIRECTORY
+    "${DEBUG_PATH}"
+)
+file(
+    MAKE_DIRECTORY
+    "${RELEASE_PATH}"
+)
+
+if (UNIX)
+    set(GENERATOR "Unix Makefiles")
+elseif (WIN32)
+    set(GENERATOR "Ninja")
 endif ()
 
 execute_process(
     COMMAND
-    ${CMAKE_COMMAND} -S . -B "${BASE_BUILD_PATH}" -A "${ARCH_PARAMETER}"
+    ${CMAKE_COMMAND} -S . -B "${DEBUG_PATH}" -G "${GENERATOR}" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_DEBUG_POSTFIX=d
 )
 
 execute_process(
     COMMAND
-    ${CMAKE_COMMAND} --build ${BASE_BUILD_PATH} --target ced --config RelWithDebInfo
+    ${CMAKE_COMMAND} --build "${DEBUG_PATH}" --target ced
 )
 
 execute_process(
     COMMAND
-    ${CMAKE_COMMAND} --build ${BASE_BUILD_PATH} --target ced --config Debug
+    ${CMAKE_COMMAND} -S . -B "${RELEASE_PATH}" -G "${GENERATOR}" -DCMAKE_BUILD_TYPE=RelWithDebInfo
+)
+
+execute_process(
+    COMMAND
+    ${CMAKE_COMMAND} --build "${RELEASE_PATH}" --target ced
 )
 
 set(
@@ -102,7 +124,7 @@ file(
     "${CMAKE_CURRENT_LIST_DIR}/package.cmake"
     DESTINATION
     ${PACKAGE_PATH}
-    )
+)
 
 file(
     COPY
@@ -129,7 +151,14 @@ file(
 
 file(
     COPY
-    "${BASE_BUILD_PATH}/lib"
+    "${DEBUG_PATH}/lib"
+    DESTINATION
+    ${PACKAGE_PATH}
+)
+
+file(
+    COPY
+    "${RELEASE_PATH}/lib"
     DESTINATION
     ${PACKAGE_PATH}
 )
