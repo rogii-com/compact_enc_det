@@ -4,7 +4,7 @@ endif ()
 
 set(
     BUILD
-    0
+    1
 )
 
 if (DEFINED ENV{BUILD_NUMBER})
