@@ -108,14 +108,6 @@ execute_process(
     ${CMAKE_COMMAND} --build "${RELEASE_PATH}" --target ced
 )
 
-
-file(
-    COPY
-        "${CMAKE_CURRENT_LIST_DIR}/package.cmake"
-    DESTINATION
-        ${CMAKE_INSTALL_PREFIX}
-)
-# Copy artifacts direct to package
 file(
     COPY
     "${CMAKE_CURRENT_LIST_DIR}/package.cmake"
