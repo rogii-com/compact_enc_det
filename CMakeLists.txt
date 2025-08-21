@@ -15,7 +15,7 @@ if (WIN32)
     file(DOWNLOAD "https://github.com/google/googletest/archive/master.zip" ${CMAKE_SOURCE_DIR}/master.zip)
     execute_process(COMMAND ${CMAKE_COMMAND} -E tar x master.zip)
     file(REMOVE master.zip)
-    file(RENAME googletest-master gtest)
+    file(RENAME googletest-main gtest)
   endif()
 
   # Configure gtest.
